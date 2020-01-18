@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//org.mybatis/DTD mapper 3.0//EN"
+        "http://org.mybatis/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.dao.AppCheckMapper">
+    <resultMap id="acMapper" type="App_check" autoMapping="true">
+        <id property="id" column="id"/>
+        <id property="flatformName" column="flatformName"/>
+        <id property="statusName" column="statusName"/>
+        <id property="categoryLevel1Name" column="categoryLevel1Name"/>
+        <id property="categoryLevel2Name" column="categoryLevel2Name"/>
+        <id property="categoryLevel3Name" column="categoryLevel3Name"/>
+    </resultMap>
+    <select id="selectOne" resultMap="acMapper">
+        select a.*,d1.valueName as flatformId,d2.valueName as statusName,c1.categoryName as categoryLevel1Name,c2.categoryName as categoryLevel2Name,c3.categoryName as categoryLevel3Name
+        from app_info a,data_dictionary d1,data_dictionary d2,app_category c1,app_category c2,app_category c3
+        where d1.typeCode like "APP_FLATFORM" and a.flatformId=d1.valueId and d2.typeCode like "APP_STATUS" and a.status=d2.valueId and c1.id=a.categoryLevel1 and c2.id=a.categoryLevel2 and c3.id=a.categoryLevel3
+        and a.id=#{aid}
+    </select>
+</mapper>

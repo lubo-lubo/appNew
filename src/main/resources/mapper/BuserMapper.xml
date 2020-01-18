@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//org.mybatis/DTD mapper 3.0//EN"
+    "http://org.mybatis/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.dao.BackendUserMapper">
+    <resultMap id="userdatamapper" type="Backend_User">
+        <id property="id" column="id"/>
+        <result property="userCode" column="userCode"/>
+        <result property="userName" column="userName"/>
+        <result property="userType" column="userType"/>
+<!--        <result property="createdBy" column="createdBy"/>-->
+<!--        <result property="creationDate" column="creationDate"/>-->
+<!--        <result property="modifyBy" column="modifyBy"/>-->
+        <result property="userPassword" column="userPassword"/>
+        <association property="data_dictionary" javaType="Data_Dictionary">
+            <id property="id" column="did"/>
+            <result property="typeName" column="typeName"/>
+            <result property="valueId" column="valueId"/>
+            <result property="valueName" column="valueName"/>
+        </association>
+    </resultMap>
+    <select id="findOne" resultMap="userdatamapper">
+        select b.id as id,userCode,userName,userPassword,d.id as did,typeName
+        from backend_user b,data_dictionary d
+        where b.userType=d.valueId and typeCode like "USER_TYPE" and userCode=#{userCode}
+    </select>
+    <select id="findAll" resultMap="userdatamapper">
+        select b.id as id,userCode,userName,userPassword,d.id as did,typeName,valueName
+        from backend_user b,data_dictionary d
+        where b.userType=d.valueId and typeCode like "USER_TYPE"
+    </select>
+</mapper>

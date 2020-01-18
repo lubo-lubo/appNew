@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//org.mybatis/DTD mapper 3.0//EN"
+        "http://org.mybatis/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.dao.DataDictionaryMapper">
+    <select id="findAllByPage" resultType="Data_Dictionary">
+        select *
+        from data_dictionary
+        limit #{item},5
+    </select>
+    <select id="findSomeByPage" resultType="Data_Dictionary">
+        select *
+        from data_dictionary
+        <trim prefix="where" prefixOverrides="and">
+            <if test="valueName!=null and valueName!=''">
+                and valueName like Concat('%',#{valueName},'%')
+            </if>
+            <if test="typeCode!=null and typeCode!=''">
+                and typeCode=#{typeCode}
+            </if>
+            <if test="valueId!=0 and valueId!=null">
+                and valueId=#{valueId}
+            </if>
+        </trim>
+        limit #{item},5
+    </select>
+    <select id="findSome" resultType="Data_Dictionary">
+        select *
+        from data_dictionary
+        <trim prefix="where" prefixOverrides="and">
+            <if test="valueName!=null and valueName!=''">
+                and valueName like Concat('%',#{valueName},'%')
+            </if>
+            <if test="typeCode!=null and typeCode!=''">
+                and typeCode=#{typeCode}
+            </if>
+            <if test="valueId!=0 and valueId!=null">
+                and valueId=#{valueId}
+            </if>
+        </trim>
+    </select>
+</mapper>
